@@ -3,6 +3,10 @@
 
 <!-- Replace block content in base_template.html -->
 {% block content %}
-<h1>Accessible Cooking</h1>
-
+<h1>Recipe Index</h1>
+<ul>
+    {% for recipe in recipes %}
+        <li><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}

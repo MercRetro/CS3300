@@ -1,11 +1,10 @@
+# urls.py
 from django.urls import path
-from . import views
+from .views import RecipeListView, RecipeDetailView, add_recipe, add_ingredient
 
 urlpatterns = [
-    #path function defines a url pattern
-    #'' is empty to represent based path to app
-    # views.index is the function defined in views.py
-    # name='index' parameter is to dynamically create url
-    # example in html <a href="{% url 'index' %}">Home</a>.
-    path('', views.index, name='index'),
+    path('recipes/', RecipeListView.as_view(), name='recipe_list'),
+    path('recipes/<int:pk>/', RecipeDetailView.as_view(), name='recipe_detail'),
+    path('recipes/add/', add_recipe, name='add_recipe'),
+    path('recipes/<int:recipe_id>/add_ingredient/', add_ingredient, name='add_ingredient'),
 ]

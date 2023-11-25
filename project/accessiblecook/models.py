@@ -13,7 +13,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=255)
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, default=1)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name

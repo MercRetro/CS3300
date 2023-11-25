@@ -12,12 +12,12 @@ def index(request):
 
 class RecipeListView(generic.ListView):
     model = Recipe
-    template_name = 'recipes/recipe_list.html'
+    template_name = 'accessiblecook/recipe_list.html'
     context_object_name = 'recipes'
-
+    
 class RecipeDetailView(generic.DetailView):
     model = Recipe
-    template_name = 'recipes/recipe_detail.html'
+    template_name = 'accessiblecook/recipe_detail.html'
     context_object_name = 'recipe'
 
 def add_recipe(request):
@@ -28,7 +28,7 @@ def add_recipe(request):
             return redirect('recipe_list')
     else:
         form = RecipeForm()
-    return render(request, 'recipes/add_recipe.html', {'form': form})
+    return render(request, 'accessiblecook/add_recipe.html', {'form': form})
 
 def add_ingredient(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
@@ -41,4 +41,4 @@ def add_ingredient(request, recipe_id):
             return redirect('recipe_detail', pk=recipe_id)
     else:
         form = IngredientForm(initial={'recipe': recipe})
-    return render(request, 'recipes/add_ingredient.html', {'form': form})
+    return render(request, 'accessiblecook/add_ingredient.html', {'form': form, 'recipe': recipe})

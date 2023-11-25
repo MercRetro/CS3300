@@ -2,12 +2,13 @@
 
 {% block content %}
 <h1>Recipe List</h1>
-<ul>
-    {% for recipe in recipes %}
-        <li>
-            <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
-            <p>Estimated Cook Time: {{ recipe.estimated_cook_time }}</p>
-        </li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for recipe in recipes %}
+            <li>
+                <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a>
+                <p>Estimated Cook Time: {{ recipe.estimated_cook_time }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_recipe' %}"><button>Add New Recipe</button></a>
 {% endblock %}

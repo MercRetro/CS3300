@@ -1,11 +1,13 @@
 {% extends 'accessiblecook/base_template.html' %}
-
-<h1>{{ recipe.name }}</h1>
-<p>Estimated Cook Time: {{ recipe.estimated_cook_time }}</p>
-<p>Instructions: {{ recipe.instructions }}</p>
-<h2>Ingredients</h2>
-<ul>
-    {% for ingredient in recipe.ingredient_set.all %}
-        <li>{{ ingredient.name }}</li>
-    {% endfor %}
-</ul>
+{% block content %}
+    <h1>{{ recipe.name }}</h1>
+    <p>Estimated Cook Time: {{ recipe.estimated_cook_time }}</p>
+    <p>Instructions: {{ recipe.instructions }}</p>
+    <h2>Ingredients</h2>
+    <ul>
+        {% for ingredient in recipe.ingredient_set.all %}
+            <li>{{ ingredient.name }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_ingredient' recipe_id=recipe.id %}"><button>Add Ingredients</button></a>
+{% endblock %}

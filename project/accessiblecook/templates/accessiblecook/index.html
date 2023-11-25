@@ -1,12 +1,26 @@
-<!-- inherit from base.html-->
-{% extends "accessiblecook/base_template.html" %}
+{% extends 'accessiblecook/base_template.html' %}
 
-<!-- Replace block content in base_template.html -->
 {% block content %}
-<h1>Recipe Index</h1>
-<ul>
-    {% for recipe in recipes %}
-        <li><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.name }}</a></li>
-    {% endfor %}
-</ul>
+  <h2>Welcome to your recipes!</h2>
+
+  <form id="recipeSearchForm">
+    <label for="recipe_search">Search Recipes:</label>
+    <select class="selectpicker" data-live-search="true" name="recipe_search" id="recipe_search">
+      <option value="" selected>Choose a recipe</option>
+      {% for recipe in recipes %}
+        <option value="{{ recipe.pk }}">{{ recipe.name }}</option>
+      {% endfor %}
+    </select>
+    <button type="button" onclick="searchRecipe()">Search</button>
+  </form>
+
+  <script>
+    function searchRecipe() {
+      var selectedRecipePk = document.getElementById('recipe_search').value;
+      if (selectedRecipePk) {
+        window.location.href = "/recipes/" + selectedRecipePk + "/";
+      }
+    }
+  </script>
+  
 {% endblock %}

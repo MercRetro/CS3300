@@ -1,13 +1,19 @@
 {% extends 'accessiblecook/base_template.html' %}
+{% load custom_filters %}
 {% block content %}
+    <br>
     <h1>{{ recipe.name }}</h1>
     <p>Estimated Cook Time: {{ recipe.estimated_cook_time }}</p>
-    <p>Instructions: {{ recipe.instructions }}</p>
-    <h2>Ingredients</h2>
-    <ul>
-        {% for ingredient in recipe.ingredient_set.all %}
-            <li>{{ ingredient.name }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'add_ingredient' recipe_id=recipe.id %}"><button>Add Ingredients</button></a>
+        
+    <h2>Ingredients:</h2>
+    <p>{{ recipe.ingredients|comma_separated_to_checkbox_list |safe }}</p>
+
+    <h2>Instructions</h2>
+    <p>{{ recipe.instructions|linebreaks }}</p>
+    
+
+    <a href="{% url 'edit_recipe' recipe_id=recipe.id %}"><button>Edit</button></a>
+    <a href="{% url 'remove_recipe' recipe_id=recipe.id %}"><button>Remove</button></a>
+    <br>
+    <br>
 {% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'accessiblecook/base_template.html' %}
+
+{% block title %}Remove Recipe{% endblock %}
+
+{% block content %}
+  <h2>Remove Recipe</h2>
+  <p>Are you sure you want to remove the recipe "{{ recipe.name }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Remove Recipe</button>
+  </form>
+  <a href="{% url 'recipe_detail' recipe.pk %}"> <button>No, Cancel</button></a>
+{% endblock %}

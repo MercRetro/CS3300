@@ -4,21 +4,21 @@
   <h2>Welcome to your recipes!</h2>
 
   <form id="recipeSearchForm">
-    <label for="recipe_search">Search Recipes:</label>
-    <select class="selectpicker" data-live-search="true" name="recipe_search" id="recipe_search">
-      <option value="" selected>Choose a recipe</option>
+    <label for="recipe_search">Recipes Select:</label>
+    <ul>
       {% for recipe in recipes %}
-        <option value="{{ recipe.pk }}">{{ recipe.name }}</option>
+          <input type="radio" name="recipe_search" id="recipe_{{ recipe.pk }}" value="{{ recipe.pk }}">
+          <label for="recipe_{{ recipe.pk }}">{{ recipe.name }}</label>
       {% endfor %}
-    </select>
-    <button type="button" onclick="searchRecipe()">Search</button>
+    </ul>
+    <button type="button" onclick="searchRecipe()">Go to</button>
   </form>
 
   <script>
     function searchRecipe() {
-      var selectedRecipePk = document.getElementById('recipe_search').value;
+      var selectedRecipePk = document.querySelector('input[name="recipe_search"]:checked');
       if (selectedRecipePk) {
-        window.location.href = "/recipes/" + selectedRecipePk + "/";
+        window.location.href = "/recipes/" + selectedRecipePk.value + "/";
       }
     }
   </script>

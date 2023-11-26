@@ -1,0 +1,7 @@
+<!-- inherit from base_template.html -->
+{% extends 'accessiblecook/base_template.html' %}
+
+{% block content %}
+  <p>Logged out!</p>
+  <a href="{% url 'login'%}"><button>Click here to login again.</button></a>
+{% endblock %}

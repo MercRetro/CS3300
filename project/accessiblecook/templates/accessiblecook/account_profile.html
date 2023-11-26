@@ -1,0 +1,14 @@
+{% extends 'accessiblecook/base_template.html' %}
+
+{% block title %}Account Profile{% endblock %}
+
+{% block content %}
+  <h2>Your Account Profile</h2>
+
+  <!-- User details -->
+  <section>
+    <h3>User Details</h3>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+  </section>
+  <a href="{% url 'password_reset' %}"> <button>Reset Password</button></a>
+{% endblock %}

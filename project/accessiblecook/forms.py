@@ -1,12 +1,7 @@
-from django.forms import ModelForm
-from .models import Recipe, Ingredient
+from django.forms import ModelForm, modelformset_factory
+from .models import Recipe
 
 class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = ['name', 'estimated_cook_time', 'instructions']
-
-class IngredientForm(ModelForm):
-    class Meta:
-        model = Ingredient
-        fields = ['name', 'recipe']
+        fields = ['name', 'estimated_cook_time', 'ingredients', 'instructions']

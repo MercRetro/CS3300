@@ -1,26 +1,10 @@
 {% extends 'accessiblecook/base_template.html' %}
 
 {% block content %}
-  <h2>Welcome to your recipes!</h2>
+  <h2>Welcome to the Recipe Index!</h2>
 
-  <form id="recipeSearchForm">
-    <label for="recipe_search">Recipes Select:</label>
-    <ul>
-      {% for recipe in recipes %}
-          <input type="radio" name="recipe_search" id="recipe_{{ recipe.pk }}" value="{{ recipe.pk }}">
-          <label for="recipe_{{ recipe.pk }}">{{ recipe.name }}</label>
-      {% endfor %}
-    </ul>
-    <button type="button" onclick="searchRecipe()">Go to</button>
-  </form>
+  <p>Explore our collection of delicious recipes.</p>
 
-  <script>
-    function searchRecipe() {
-      var selectedRecipePk = document.querySelector('input[name="recipe_search"]:checked');
-      if (selectedRecipePk) {
-        window.location.href = "/recipes/" + selectedRecipePk.value + "/";
-      }
-    }
-  </script>
-  
+  <a href="/recipes/" aria-label="View Recipe List: Browse and discover a variety of mouth-watering recipes"><button>Go To Recipe List</button></a>
 {% endblock %}
+

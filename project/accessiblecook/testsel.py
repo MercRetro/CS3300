@@ -1,21 +1,12 @@
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
+from django.test import LiveServerTestCase
+from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Recipe
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
 
-class RecipeSeleniumTests(StaticLiveServerTestCase):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.selenium = webdriver.Chrome(executable_path='C:\Program Files (x86)\chromedriver-win64')
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.selenium.quit()
-        super().tearDownClass()
-
+class RecipeSeleniumTests(LiveServerTestCase):
     def setUp(self):
         # Create a test user
         self.test_user = User.objects.create_user(username='testuser', password='testpassword')
@@ -28,18 +19,29 @@ class RecipeSeleniumTests(StaticLiveServerTestCase):
             ingredients="Test ingredients.",
         )
 
+        # Set up Chrome options
+        chrome_options = Options()
+        chrome_options.add_argument('C:\Program Files (x86)\chromedriver-win64')
+
+        # Initialize Chrome WebDriver with options
+        self.selenium = webdriver.Chrome(options=chrome_options)
+
         # Log in the test user
-        self.selenium.get(self.live_server_url + '/login/')
+        login_url = reverse('login')
+        self.selenium.get(self.live_server_url + login_url)
         username_input = self.selenium.find_element_by_name("username")
         password_input = self.selenium.find_element_by_name("password")
         username_input.send_keys('testuser')
         password_input.send_keys('testpassword')
         password_input.send_keys(Keys.RETURN)
 
+    def tearDown(self):
+        self.selenium.quit()
+
     def test_edit_recipe_selenium(self):
         # Navigate to the edit recipe page
-        self.selenium.get(self.live_server_url + f'/recipes/{self.test_recipe.pk}/edit/')
-
+        edit_recipe_url = reverse('edit_recipe', args=[self.test_recipe.pk])
+        self.selenium.get(self.live_server_url + edit_recipe_url)
         # Perform actions with the Selenium WebDriver (e.g., fill out form, submit)
         name_input = self.selenium.find_element_by_name("name")
         estimated_cook_time_input = self.selenium.find_element_by_name("estimated_cook_time")
@@ -60,7 +62,7 @@ class RecipeSeleniumTests(StaticLiveServerTestCase):
         self.selenium.find_element_by_id("submit-button").click()
 
         # Assert that the user is redirected to the detail view
-        self.assertEqual(self.selenium.current_url, f'{self.live_server_url}/recipes/{self.test_recipe.pk}/')
+        self.assertEqual(self.selenium.current_url, self.live_server_url + reverse('recipe_detail', args=[self.test_recipe.pk]))
 
         # Optionally, you can check if the database has been updated with the new data
         updated_recipe = Recipe.objects.get(pk=self.test_recipe.pk)
@@ -71,13 +73,13 @@ class RecipeSeleniumTests(StaticLiveServerTestCase):
 
     def test_remove_recipe_selenium(self):
         # Navigate to the remove recipe page
-        self.selenium.get(self.live_server_url + f'/recipes/{self.test_recipe.pk}/remove/')
+        self.selenium.get(self.live_server_url + reverse('remove_recipe', args=[self.test_recipe.pk]))
 
         # Perform actions with the Selenium WebDriver (e.g., click on confirmation button)
         self.selenium.find_element_by_id("confirm-button").click()
 
         # Assert that the user is redirected to the recipe list
-        self.assertEqual(self.selenium.current_url, f'{self.live_server_url}/recipes/')
+        self.assertEqual(self.selenium.current_url, self.live_server_url + reverse('recipe_list'))
 
         # Optionally, you can check if the recipe is no longer in the database
         with self.assertRaises(Recipe.DoesNotExist):

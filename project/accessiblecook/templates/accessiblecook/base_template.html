@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <a href="#main-content" class="skip-link visually-hidden-focusable">Skip to Content</a>
+    <a href="#main-content" class="skip-main">Skip to main content</a>
     <nav class="navbar navbar-expand bg-body-tertiary">
         <div class="container-fluid">
             <img src="{% static 'images/chef.jpg' %}" style="width:100px;height:100px;" alt="Website icon of a smiling female chef in a traditional white chef hat holding up a whisk and spatula">
@@ -48,31 +48,37 @@
     </nav>
 
     <!-- add block content from html template -->
-    <div class="container" id="main-content">
+    <div id="main-content" name="content" class="container" tabindex="-1">
         {% block content %}
         {% endblock %}
     </div>
 </body>
 </html>
 
-.visually-hidden-focusable {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    white-space: nowrap;
-}
-
-.visually-hidden-focusable:focus {
-    clip: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
-    white-space: normal;
-}
+<style>
+    a.skip-main {
+    left:-999px;
+    position:absolute;
+    top:auto;
+    width:1px;
+    height:1px;
+    overflow:hidden;
+    z-index:-999;
+    }
+    a.skip-main:focus, a.skip-main:active {
+        color: #000000;
+        background-color:#7cc9e6;
+        left: auto;
+        top: auto;
+        width: 30%;
+        height: auto;
+        overflow:auto;
+        margin: 10px 35%;
+        padding:5px;
+        border-radius: 15px;
+        border:4px solid rgb(0, 0, 0);
+        text-align:center;
+        font-size:1.2em;
+        z-index:999;
+    }
+</style>
